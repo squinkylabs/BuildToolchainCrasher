@@ -45,7 +45,7 @@ struct VCO1Module : Module
         int testArray[size];
         float f = gen();
         outputs[OUTPUT].setVoltage(f);
-        if (count == 4000) {
+        if (count >= 1000) {
             INFO("proces... f=%f", f);
             INFO("sum = %d", sum);
             count = 0;
@@ -64,7 +64,8 @@ struct VCO1Module : Module
         for (size_t i=0; i<size; ++i) {
             testArray[i] += rand();
         }
-        int sum = 0;
+       // int sum = 0;
+       sum = 0;
         for (size_t i=0; i<size; ++i) {
             sum += testArray[i];
         }
@@ -75,8 +76,6 @@ struct VCO1Module : Module
     std::mt19937 gen;
     int count = 0;
     int sum = 0;
-
-
 };
 
 /**
@@ -126,6 +125,5 @@ struct VCO1Widget : ModuleWidget {
         return label;
     }
 };
-
 
 Model* crasherPlugin1 = createModel<VCO1Module, VCO1Widget>("crasher-plugin1");
