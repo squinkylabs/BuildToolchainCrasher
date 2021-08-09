@@ -41,12 +41,40 @@ struct VCO1Module : Module
     // Every Module has a process function. This is called once every
     // sample, and must service all the inputs and outputs of the module.
     void process(const ProcessArgs& args) override {
+        const size_t size = 100000;
+        int testArray[size];
         float f = gen();
         outputs[OUTPUT].setVoltage(f);
+        if (count == 4000) {
+            INFO("proces... f=%f", f);
+            INFO("sum = %d", sum);
+            count = 0;
+        } else {
+            count++;
+        }
+
+        static bool init = false;
+        if (!init) {
+            srand(1234);
+            init = true;
+        }
+        for (size_t i=0; i<size; ++i) {
+            testArray[i] = rand();
+        }
+        for (size_t i=0; i<size; ++i) {
+            testArray[i] += rand();
+        }
+        int sum = 0;
+        for (size_t i=0; i<size; ++i) {
+            sum += testArray[i];
+        }
+        
 
     }
 
     std::mt19937 gen;
+    int count = 0;
+    int sum = 0;
 
 
 };
